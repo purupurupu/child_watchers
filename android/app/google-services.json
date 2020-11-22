@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "92011008092",
+    "firebase_url": "https://child-watchers-e42cd.firebaseio.com",
+    "project_id": "child-watchers-e42cd",
+    "storage_bucket": "child-watchers-e42cd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:92011008092:android:bd2b7d193899468d869699",
+        "android_client_info": {
+          "package_name": "com.example.child_watchers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "92011008092-gc5c8u2mkfmmfegdg5g0pigqodntkmja.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUNgf28u8Z5g2kbtP8wxcsrjMz7zFrfZ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "92011008092-gc5c8u2mkfmmfegdg5g0pigqodntkmja.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
