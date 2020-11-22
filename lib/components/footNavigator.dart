@@ -10,11 +10,11 @@ Widget footNavigator() {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.done_outline),
-            label: 'Calender',
+            title: Text('Calender'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.receipt),
-            label: 'Contents',
+            title: Text('Contents'),
           ),
         ],
         type: BottomNavigationBarType.fixed,
