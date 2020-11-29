@@ -148,57 +148,6 @@ class _CalenderPageState extends State<CalenderPage>
     );
   }
 
-  //   @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: Text(widget.title),
-  //     ),
-  //     body: Column(
-  //       mainAxisSize: MainAxisSize.max,
-  //       children: <Widget>[
-  //         // Switch out 2 lines below to play with TableCalendar's settings
-  //         //-----------------------
-  //         _buildTableCalendar(),
-  //         // _buildTableCalendarWithBuilders(),
-  //         const SizedBox(height: 8.0),
-  //         _buildButtons(),
-  //         const SizedBox(height: 8.0),
-  //         Expanded(child: _buildEventList()),
-  //       ],
-  //     ),
-  //     bottomNavigationBar: footNavigator(),
-  //   );
-  // }
-
-  // 1110 add
-  Widget _buildBody(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection('baby').snapshots(),
-      builder: (context, snapshot) {
-        // エラーの場合
-        if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        }
-
-        // 通信中の場合
-        switch (snapshot.connectionState) {
-          case ConnectionState.waiting:
-            return Text('Loading ...');
-          default:
-            return ListView(
-              children:
-                  snapshot.data.documents.map((DocumentSnapshot document) {
-                return new ListTile(
-                  title: new Text(document['users']),
-                );
-              }).toList(),
-            );
-        }
-      },
-    );
-  }
-
   // Simple TableCalendar configuration (using Styles)
   Widget _buildTableCalendar() {
     return TableCalendar(
