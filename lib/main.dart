@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'model/dayAndScheduleModel.dart';
 import 'screen/calenderPage.dart';
 import 'screen/contentsPage.dart';
 import 'model/footNavigatorModel.dart';
@@ -14,6 +15,9 @@ void main() async => {
           MultiProvider(
             providers: [
               ChangeNotifierProvider(create: (context) => FootNavigatorModel()),
+              ChangeNotifierProvider(
+                  create: (context) => SetDayAndScheduleModel()),
+
               //←←←ここに追加するProviderを記載する
             ],
             child: MyApp(),
@@ -29,7 +33,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: '/Calender',
       routes: {
-        '/Calender': (context) => CalenderPage('Calender'),
+        '/Calender': (context) => CalenderPage(),
         '/Contents': (context) => ContentsPage(),
         // '/InputTask': (context) => InputTaskPage(),
       },
