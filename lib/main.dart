@@ -30,15 +30,19 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: '/Calender',
-      routes: {
-        '/Calender': (context) => CalenderPage(),
-        '/Contents': (context) => ContentsPage(),
-        // '/InputTask': (context) => InputTaskPage(),
-      },
-      // home: TodoPage(),
-    );
+    return (Consumer<SetDayAndScheduleModel>(builder: (context, model, child) {
+      DateTime now = DateTime.now();
+      model.setCurrentMonth(now.month.toString());
+
+      return MaterialApp(
+        initialRoute: '/Calender',
+        routes: {
+          '/Calender': (context) => CalenderPage(),
+          '/Contents': (context) => ContentsPage(),
+          // '/InputTask': (context) => InputTaskPage(),
+        },
+      );
+    }));
   }
 }
 

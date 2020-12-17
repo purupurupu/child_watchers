@@ -65,13 +65,17 @@ Widget dayAndSchedule(int index) {
         if (tmpThisMonth['holiday'] == '0') {
           if (tmpThisMonth['thisweekday'] == '6') {
             return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(
-                  model.days.toString(),
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                Container(
+                  width: double.infinity,
+                  child: Text(
+                    model.days.toString(),
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
                 ),
                 Text("test testaaaaaa"),
