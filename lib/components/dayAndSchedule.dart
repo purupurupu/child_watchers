@@ -17,7 +17,7 @@ final Map<String, String> _holidays = {
 Widget dayAndSchedule(int index) {
   return (Consumer<SetDayAndScheduleModel>(
     builder: (context, model, child) {
-      var tmpThisMonth = calcThisMonth();
+      var tmpThisMonth = calcThisMonth(model.currentYear, model.currentMonth);
 
       var startDay = int.parse(tmpThisMonth['weekday']);
       var lastDay = int.parse(tmpThisMonth['lastday']);
@@ -33,18 +33,44 @@ Widget dayAndSchedule(int index) {
         _dayCount = model.days;
 
         if (tmpThisMonth['holiday'] == '0') {
-          return Row(
-            children: [
-              Text(
-                model.days.toString(),
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
+          //1日目のレンダリングは7にしないとNG
+          if (tmpThisMonth['thisweekday'] == '7') {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: double.infinity,
+                  child: Text(
+                    model.days.toString(),
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
                 ),
+                Text("test testaaaaaa"),
+              ],
+            );
+            //1日目のレンダリングは6にしないとNG
+          } else if (tmpThisMonth['thisweekday'] == '6') {
+            return Text(
+              model.days.toString(),
+              style: TextStyle(
+                color: Colors.blue,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
               ),
-              Text("testtest"),
-            ],
-          );
+            );
+          } else {
+            return Text(
+              model.days.toString(),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            );
+          }
         } else if (tmpThisMonth['holiday'] == '1') {
           return Text(
             model.days.toString(),
@@ -58,7 +84,7 @@ Widget dayAndSchedule(int index) {
       }
 
       //日付表示　2日目～最終日
-      if (index > startDay && lastDay - index >= 0) {
+      if (index > startDay && lastDay + startDay - index > 0) {
         model.incDays();
         _dayCount = model.days;
 
@@ -111,7 +137,7 @@ Widget dayAndSchedule(int index) {
         }
       }
 
-      if (index > lastDay) {
+      if (index > lastDay + startDay - 1) {
         model.resetDays();
         _dayCount = model.days;
         return Text("");
@@ -120,20 +146,22 @@ Widget dayAndSchedule(int index) {
   ));
 }
 
-Map<String, String> calcThisMonth() {
+Map<String, String> calcThisMonth(String thisYear, String thisMonth) {
   DateTime now = DateTime.now();
-  String thisYear = now.year.toString();
-  String thisMonth = now.month.toString();
-  String thisDay = now.month.toString();
+  String thisDay = now.day.toString();
 
-  String firstWeekday = DateTime(now.year, now.month, 1).weekday.toString();
+  String firstWeekday =
+      DateTime(int.parse(thisYear), int.parse(thisMonth), 1).weekday.toString();
   String thisWeekday =
-      DateTime(now.year, now.month, _dayCount).weekday.toString();
+      DateTime(int.parse(thisYear), int.parse(thisMonth), _dayCount)
+          .weekday
+          .toString();
 
-  String lastDay = DateTime(now.year, now.month + 1, 1)
+  String lastDay = DateTime(int.parse(thisYear), int.parse(thisMonth) + 1, 1)
       .add(Duration(days: -1))
       .day
       .toString();
+
   Map<String, String> setDay = {
     'year': '$thisYear',
     'month': '$thisMonth',

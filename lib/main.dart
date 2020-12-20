@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return (Consumer<SetDayAndScheduleModel>(builder: (context, model, child) {
       DateTime now = DateTime.now();
-      model.setCurrentMonth(now.month.toString());
+      // model.setCurrentMonth(now.month.toString());
 
       return MaterialApp(
         initialRoute: '/Calender',
@@ -45,26 +45,3 @@ class MyApp extends StatelessWidget {
     }));
   }
 }
-
-// MultiProvider
-// class MyApp extends StatelessWidget {
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return MultiProvider(
-//       providers: [
-//         // ChangeNotifierProvider(create: (context) => FootNavigatorModel()),
-//         // ChangeNotifierProvider(create: (context) => TaskListViewModel()),
-//       ],
-//       child: MaterialApp(
-//         initialRoute: '/Calender',
-//         routes: {
-//           '/Calender': (context) => CalenderPage(),
-//           // '/Reminder': (context) => ReminderPage(),
-//           // '/InputTask': (context) => InputTaskPage(),
-//         },
-//         // home: TodoPage(),
-//       ),
-//     );
-//   }
-// }

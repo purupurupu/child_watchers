@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:child_watchers/components/dayAndSchedule.dart';
 import 'package:child_watchers/components/dayOfTHeWeek.dart';
 import 'package:child_watchers/model/dayAndScheduleModel.dart';
@@ -40,25 +42,36 @@ class CalenderPage extends StatelessWidget {
 
     return (Consumer<SetDayAndScheduleModel>(
       builder: (context, model, child) {
+        //initial setting
+        if (model.getCurrentMonth() == "") {
+          model.setCurrentDate(now);
+        }
+
         return Scaffold(
           appBar: AppBar(
             leading: IconButton(
               color: Colors.white,
               icon: Icon(Icons.arrow_back),
               onPressed: () {
-                ;
+                model.setLastMonth();
+                model.resetDays();
+                Navigator.of(context).pushNamed("/Calender");
               },
             ),
             backgroundColor: Colors.red,
             centerTitle: true,
-            title: Text('$tmpTime'),
+            title: Text(model.currentYear + '/' + model.currentMonth),
             actions: <Widget>[
               IconButton(
                 color: Colors.white,
                 icon: Icon(
                   Icons.arrow_forward,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  model.setNextMonth();
+                  model.resetDays();
+                  Navigator.of(context).pushNamed("/Calender");
+                },
               ),
             ],
           ),
