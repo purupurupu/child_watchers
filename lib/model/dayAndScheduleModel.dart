@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class SetDayAndScheduleModel extends ChangeNotifier {
@@ -5,6 +6,7 @@ class SetDayAndScheduleModel extends ChangeNotifier {
   String currentYear = "";
   String currentMonth = "";
   String currentDay = "";
+  String text = "";
 
   void incDays() {
     days++;
@@ -49,5 +51,22 @@ class SetDayAndScheduleModel extends ChangeNotifier {
     }
   }
 
-  //firestoreからスケジュール持ってくる
+  // firestoreからスケジュール持ってくる
+  // Future fsGetSchedule(String date) async {
+  //   try {
+  //     final snapshot = await FirebaseFirestore.instance
+  //         .collection('baby')
+  //         .doc('yuto')
+  //         .collection('$date')
+  //         .doc('schedule')
+  //         .get();
+
+  //     // debugPrint(snapshot['text']);
+  //     text = snapshot['text'];
+  //     // notifyListeners();
+  //   } catch (e) {
+  //     text = "";
+  //     debugPrint("not exists data in fir/estore ");
+  //   }
+  // }
 }

@@ -18,7 +18,6 @@ void main() async => {
               ChangeNotifierProvider(create: (context) => FootNavigatorModel()),
               ChangeNotifierProvider(
                   create: (context) => SetDayAndScheduleModel()),
-              ChangeNotifierProvider(create: (context) => FSGetScheduleModel()),
 
               //←←←ここに追加するProviderを記載する
             ],

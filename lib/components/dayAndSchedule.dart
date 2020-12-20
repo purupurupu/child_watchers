@@ -1,4 +1,5 @@
 import 'package:child_watchers/model/fsGetSchedule.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 // import 'package:intl/intl.dart';
@@ -6,6 +7,8 @@ import 'package:provider/provider.dart';
 import '../model/dayAndScheduleModel.dart';
 
 int _dayCount = 0;
+int i = 0;
+String text = "";
 
 final Map<String, String> _holidays = {
   '2020/12/1': 'dummy',
@@ -29,6 +32,18 @@ Widget dayAndSchedule(int index) {
         return Text("");
       }
 
+      // i++;
+      // debugPrint(i.toString());
+
+      //FSからデータを取得
+      String tmpDate = model.currentYear +
+          model.currentMonth +
+          ((model.days + 1).toString());
+      fsGetSchedule(tmpDate);
+
+      // debugPrint("a");
+      debugPrint(model.text);
+
       //日付表示　1日目
       if (index.toString() == tmpThisMonth['weekday']) {
         model.incDays();
@@ -51,36 +66,51 @@ Widget dayAndSchedule(int index) {
                     ),
                   ),
                 ),
-                // Text('$schedule['text']'),
+                Text(model.text),
               ],
             );
             //1日目のレンダリングは6にしないとNG
           } else if (tmpThisMonth['thisweekday'] == '6') {
-            return Text(
-              model.days.toString(),
-              style: TextStyle(
-                color: Colors.blue,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
+            return Column(
+              children: [
+                Text(
+                  model.days.toString(),
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                Text(model.text),
+              ],
             );
           } else {
-            return Text(
-              model.days.toString(),
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
+            return Column(
+              children: [
+                Text(
+                  model.days.toString(),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                Text(model.text),
+              ],
             );
           }
         } else if (tmpThisMonth['holiday'] == '1') {
-          return Text(
-            model.days.toString(),
-            style: TextStyle(
-              color: Colors.red,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
+          return Column(
+            children: [
+              Text(
+                model.days.toString(),
+                style: TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              Text(model.text),
+            ],
           );
         }
       }
@@ -105,35 +135,50 @@ Widget dayAndSchedule(int index) {
                     ),
                   ),
                 ),
-                // Text(schedule['text']),
+                Text(model.text),
               ],
             );
           } else if (tmpThisMonth['thisweekday'] == '5') {
-            return Text(
-              model.days.toString(),
-              style: TextStyle(
-                color: Colors.blue,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
+            return Column(
+              children: [
+                Text(
+                  model.days.toString(),
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                Text(model.text),
+              ],
             );
           } else {
-            return Text(
-              model.days.toString(),
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
+            return Column(
+              children: [
+                Text(
+                  model.days.toString(),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                Text(model.text),
+              ],
             );
           }
         } else if (tmpThisMonth['holiday'] == '1') {
-          return Text(
-            model.days.toString(),
-            style: TextStyle(
-              color: Colors.red,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
+          return Column(
+            children: [
+              Text(
+                model.days.toString(),
+                style: TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              Text(model.text),
+            ],
           );
         }
       }
@@ -192,23 +237,36 @@ String checkHoliday(String year, String month, String day) {
   }
 }
 
-// Future<Map<String, String>> FSGetSchedule() async {
+// fsGetSchedule(date) async {
 //   try {
 //     final snapshot = await FirebaseFirestore.instance
 //         .collection('baby')
 //         .doc('yuto')
-//         .collection('20201225')
+//         .collection('$date')
 //         .doc('schedule')
 //         .get();
 
 //     debugPrint(snapshot['text']);
+//     text = snapshot['text'];
 
-//     Map<String, String> result = {
-//       'text': snapshot['text'],
-//     };
-
-//     return result;
+//     // return result;
 //   } catch (e) {
 //     debugPrint("not exists data in firestore ");
 //   }
 // }
+
+Future<String> fsGetSchedule(String date) async {
+  try {
+    DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
+        .collection('baby')
+        .doc('yuto')
+        .collection('$date')
+        .doc('schedule')
+        .get();
+
+    Map<String, dynamic> record = docSnapshot.data;
+    return record['text'];
+  } catch (e) {
+    debugPrint("");
+  }
+}
