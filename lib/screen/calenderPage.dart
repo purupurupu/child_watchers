@@ -3,6 +3,7 @@
 import 'package:child_watchers/components/dayAndSchedule.dart';
 import 'package:child_watchers/components/dayOfTHeWeek.dart';
 import 'package:child_watchers/model/dayAndScheduleModel.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,21 @@ import '../components/footNavigator.dart';
 // import 'package:intl/date_symbol_data_local.dart';
 
 class CalenderPage extends StatelessWidget {
+  Future<Map<String, dynamic>> fsGetSchedule(String date) async {
+    try {
+      DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
+          .collection('yuto')
+          .doc('$date')
+          .get();
+
+      // debugPrint(docSnapshot['schedule']);
+      return docSnapshot.data();
+    } catch (e) {
+      // docSnapshot = "aaaa" as DocumentSnapshot;
+      debugPrint("not exists data in firestore ");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
@@ -30,6 +46,36 @@ class CalenderPage extends StatelessWidget {
         if (model.getCurrentMonth() == "") {
           model.setCurrentDate(now);
         }
+
+        // String tmpDate = model.currentYear +
+        //     model.currentMonth +
+        //     ((model.days + 1).toString());
+
+        // return FutureBuilder(
+        //   future: fsGetSchedule('20201225'),
+        //   builder: (context, snapshot) {
+        //     // 取得が完了していないときに表示するWidget
+        //     if (snapshot.connectionState != ConnectionState.done) {
+        //       // インジケーターを回しておきます
+        //       // return const CircularProgressIndicator();
+        //     }
+
+        //     // エラー時に表示するWidget
+        //     if (snapshot.hasError) {
+        //       print(snapshot.error);
+        //       // return Text('エラー');
+        //     }
+
+        //     // データが取得できなかったときに表示するWidget
+        //     if (!snapshot.hasData) {
+        //       // return Text('データがない');
+        //     }
+        //     debugPrint('${snapshot.data}');
+
+        //     // 取得したデータを表示するWidget
+        //     // return Text('${snapshot.data}');
+        //   },
+        // );
 
         return Scaffold(
           appBar: AppBar(
@@ -95,6 +141,7 @@ class CalenderPage extends StatelessWidget {
                     mainAxisSpacing: 0.0, // 横
                     childAspectRatio: 0.7, // 高さ
 
+                    //グリッド作成ループ
                     children: List.generate(42, (index) {
                       return Container(
                         child: selectBoxDecoration(index), //枠線設定　日付設定

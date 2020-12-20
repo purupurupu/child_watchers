@@ -7,6 +7,7 @@ class SetDayAndScheduleModel extends ChangeNotifier {
   String currentMonth = "";
   String currentDay = "";
   String text = "";
+  // DocumentSnapshot docSnapshot;
 
   void incDays() {
     days++;
@@ -51,6 +52,21 @@ class SetDayAndScheduleModel extends ChangeNotifier {
     }
   }
 
+  Future<Map<String, dynamic>> fsGetSchedule(String date) async {
+    try {
+      DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
+          .collection('yuto')
+          .doc('$date')
+          .get();
+
+      debugPrint(docSnapshot['schedule']);
+      return docSnapshot.data();
+    } catch (e) {
+      // docSnapshot = "aaaa" as DocumentSnapshot;
+      debugPrint("not exists data in firestore ");
+    }
+  }
+
   // firestoreからスケジュール持ってくる
   // Future fsGetSchedule(String date) async {
   //   try {
@@ -66,7 +82,7 @@ class SetDayAndScheduleModel extends ChangeNotifier {
   //     // notifyListeners();
   //   } catch (e) {
   //     text = "";
-  //     debugPrint("not exists data in fir/estore ");
+  //     debugPrint("not exists data in firestore ");
   //   }
   // }
 }
