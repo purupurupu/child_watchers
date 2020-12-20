@@ -1,5 +1,7 @@
+import 'package:child_watchers/model/fsGetSchedule.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../model/dayAndScheduleModel.dart';
 
@@ -49,7 +51,7 @@ Widget dayAndSchedule(int index) {
                     ),
                   ),
                 ),
-                Text("test testaaaaaa"),
+                // Text('$schedule['text']'),
               ],
             );
             //1日目のレンダリングは6にしないとNG
@@ -82,7 +84,6 @@ Widget dayAndSchedule(int index) {
           );
         }
       }
-
       //日付表示　2日目～最終日
       if (index > startDay && lastDay + startDay - index > 0) {
         model.incDays();
@@ -104,7 +105,7 @@ Widget dayAndSchedule(int index) {
                     ),
                   ),
                 ),
-                Text("test testaaaaaa"),
+                // Text(schedule['text']),
               ],
             );
           } else if (tmpThisMonth['thisweekday'] == '5') {
@@ -175,8 +176,7 @@ Map<String, String> calcThisMonth(String thisYear, String thisMonth) {
       checkHoliday(setDay['year'], setDay['month'], setDay['day']);
 
   setDay['holiday'] = holidayFlag;
-
-  debugPrint(setDay['holiday']);
+  // debugPrint(setDay['holiday']);
 
   return setDay;
 }
@@ -191,3 +191,24 @@ String checkHoliday(String year, String month, String day) {
     return holidayFlag;
   }
 }
+
+// Future<Map<String, String>> FSGetSchedule() async {
+//   try {
+//     final snapshot = await FirebaseFirestore.instance
+//         .collection('baby')
+//         .doc('yuto')
+//         .collection('20201225')
+//         .doc('schedule')
+//         .get();
+
+//     debugPrint(snapshot['text']);
+
+//     Map<String, String> result = {
+//       'text': snapshot['text'],
+//     };
+
+//     return result;
+//   } catch (e) {
+//     debugPrint("not exists data in firestore ");
+//   }
+// }

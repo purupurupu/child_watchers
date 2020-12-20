@@ -1,44 +1,28 @@
-import 'dart:developer';
+// import 'dart:developer';
 
 import 'package:child_watchers/components/dayAndSchedule.dart';
 import 'package:child_watchers/components/dayOfTHeWeek.dart';
 import 'package:child_watchers/model/dayAndScheduleModel.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
+// import 'package:table_calendar/table_calendar.dart';
 import 'package:provider/provider.dart';
-import '../model/footNavigatorModel.dart';
+// import '../model/footNavigatorModel.dart';
 import '../components/footNavigator.dart';
-import "package:intl/intl.dart";
-import 'package:intl/date_symbol_data_local.dart';
-
-// // Example holidays
-// final Map<DateTime, String> _holidays = {
-//   DateTime(2020, 12, 15): 'dummy',
-//   DateTime(2021, 1, 1): 'dummy',
-//   DateTime(2021, 1, 11): 'dummy',
-//   DateTime(2021, 2, 11): 'dummy',
-//   DateTime(2021, 2, 23): 'dummy',
-//   DateTime(2021, 3, 20): 'dummy',
-//   DateTime(2021, 4, 29): 'dummy',
-//   DateTime(2021, 5, 3): 'dummy',
-//   DateTime(2021, 5, 4): 'dummy',
-//   DateTime(2021, 5, 5): 'dummy',
-//   DateTime(2021, 7, 22): 'dummy',
-//   DateTime(2021, 7, 23): 'dummy',
-// };
+// import "package:intl/intl.dart";
+// import 'package:intl/date_symbol_data_local.dart';
 
 class CalenderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
-    String tmpTime = 'Today  ' +
-        now.year.toString() +
-        '/' +
-        now.month.toString() +
-        '/' +
-        now.day.toString();
+    // String tmpTime = 'Today  ' +
+    //     now.year.toString() +
+    //     '/' +
+    //     now.month.toString() +
+    //     '/' +
+    //     now.day.toString();
 
     return (Consumer<SetDayAndScheduleModel>(
       builder: (context, model, child) {

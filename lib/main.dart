@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'model/dayAndScheduleModel.dart';
+import 'model/fsGetSchedule.dart';
 import 'screen/calenderPage.dart';
 import 'screen/contentsPage.dart';
 import 'model/footNavigatorModel.dart';
@@ -17,6 +18,7 @@ void main() async => {
               ChangeNotifierProvider(create: (context) => FootNavigatorModel()),
               ChangeNotifierProvider(
                   create: (context) => SetDayAndScheduleModel()),
+              ChangeNotifierProvider(create: (context) => FSGetScheduleModel()),
 
               //←←←ここに追加するProviderを記載する
             ],
@@ -31,9 +33,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return (Consumer<SetDayAndScheduleModel>(builder: (context, model, child) {
-      DateTime now = DateTime.now();
-      // model.setCurrentMonth(now.month.toString());
-
       return MaterialApp(
         initialRoute: '/Calender',
         routes: {
