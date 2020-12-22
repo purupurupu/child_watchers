@@ -1,4 +1,4 @@
-import 'package:child_watchers/model/fsGetSchedule.dart';
+// import 'package:child_watchers/model/fsGetSchedule.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -32,98 +32,25 @@ Widget dayAndSchedule(int index) {
         return Text("");
       }
 
-      model.resetDays();
-
       //FSからデータを取得
       String tmpDate = model.currentYear +
           model.currentMonth +
           ((model.days + 1).toString());
-      // model.fsGetSchedule(tmpDate);
 
-      // debugPrint("a");
-      // debugPrint(model.text);
-      return FutureBuilder(
-        future: model.fsGetSchedule('20201225'),
-        builder: (context, snapshot) {
-          // 取得が完了していないときに表示するWidget
-          if (snapshot.connectionState != ConnectionState.done) {
-            // インジケーターを回しておきます
-            // return const CircularProgressIndicator();
-          }
+      //日付表示　1日目
+      if (index.toString() == tmpThisMonth['weekday']) {
+        model.incDays();
+        _dayCount = model.days;
 
-          // エラー時に表示するWidget
-          if (snapshot.hasError) {
-            // print(snapshot.error);
-            // return Text('エラー');
-          }
-
-          // データが取得できなかったときに表示するWidget
-          if (!snapshot.hasData) {
-            // return Text('データがない');
-          }
-          // debugPrint('${snapshot.data['schedule']}');
-
-          // 取得したデータを表示するWidget
-          // return Text('${snapshot.data}');
-
-          //日付表示　1日目
-          if (index.toString() == tmpThisMonth['weekday']) {
-            model.incDays();
-            _dayCount = model.days;
-
-            if (tmpThisMonth['holiday'] == '0') {
-              //1日目のレンダリングは7にしないとNG
-              if (tmpThisMonth['thisweekday'] == '7') {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      child: Text(
-                        model.days.toString(),
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    Text(model.text),
-                  ],
-                );
-                //1日目のレンダリングは6にしないとNG
-              } else if (tmpThisMonth['thisweekday'] == '6') {
-                return Column(
-                  children: [
-                    Text(
-                      model.days.toString(),
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                    Text(model.text),
-                  ],
-                );
-              } else {
-                return Column(
-                  children: [
-                    Text(
-                      model.days.toString(),
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                    Text(model.text),
-                  ],
-                );
-              }
-            } else if (tmpThisMonth['holiday'] == '1') {
-              return Column(
-                children: [
-                  Text(
+        if (tmpThisMonth['holiday'] == '0') {
+          //1日目のレンダリングは7にしないとNG
+          if (tmpThisMonth['thisweekday'] == '7') {
+            return Column(
+              // mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: double.infinity,
+                  child: Text(
                     model.days.toString(),
                     style: TextStyle(
                       color: Colors.red,
@@ -131,67 +58,126 @@ Widget dayAndSchedule(int index) {
                       fontSize: 16,
                     ),
                   ),
-                  Text(model.text),
-                ],
-              );
-            }
+                ),
+                Container(
+                  child: FutureBuilder(
+                    future: model.fsGetSchedule(tmpDate),
+                    builder: (context, snapshot) {
+                      // 取得したデータを表示するWidget
+                      if (snapshot.data == null) {
+                        return Text("");
+                      } else {
+                        return Text(snapshot.data['schedule']);
+                      }
+                    },
+                  ),
+                ),
+                // Text(model.text),
+              ],
+            );
+            //1日目のレンダリングは6にしないとNG
+          } else if (tmpThisMonth['thisweekday'] == '6') {
+            return Column(
+              children: [
+                Container(
+                  width: double.infinity,
+                  child: Text(
+                    model.days.toString(),
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                Container(
+                  child: FutureBuilder(
+                    future: model.fsGetSchedule(tmpDate),
+                    builder: (context, snapshot) {
+                      // 取得したデータを表示するWidget
+                      if (snapshot.data == null) {
+                        return Text("");
+                      } else {
+                        return Text(snapshot.data['schedule']);
+                      }
+                    },
+                  ),
+                ),
+              ],
+            );
+          } else {
+            return Column(
+              children: [
+                Container(
+                  width: double.infinity,
+                  child: Text(
+                    model.days.toString(),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                Container(
+                  child: FutureBuilder(
+                    future: model.fsGetSchedule(tmpDate),
+                    builder: (context, snapshot) {
+                      // 取得したデータを表示するWidget
+                      if (snapshot.data == null) {
+                        return Text("");
+                      } else {
+                        return Text(snapshot.data['schedule']);
+                      }
+                    },
+                  ),
+                ),
+              ],
+            );
           }
-          //日付表示　2日目～最終日
-          if (index > startDay && lastDay + startDay - index > 0) {
-            model.incDays();
-            _dayCount = model.days;
+        } else if (tmpThisMonth['holiday'] == '1') {
+          return Column(
+            children: [
+              Container(
+                width: double.infinity,
+                child: Text(
+                  model.days.toString(),
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+              Container(
+                child: FutureBuilder(
+                  future: model.fsGetSchedule(tmpDate),
+                  builder: (context, snapshot) {
+                    // 取得したデータを表示するWidget
+                    if (snapshot.data == null) {
+                      return Text("");
+                    } else {
+                      return Text(snapshot.data['schedule']);
+                    }
+                  },
+                ),
+              ),
+            ],
+          );
+        }
+      }
+      //日付表示　2日目～最終日
+      if (index > startDay && lastDay + startDay - index > 0) {
+        model.incDays();
+        _dayCount = model.days;
 
-            if (tmpThisMonth['holiday'] == '0') {
-              if (tmpThisMonth['thisweekday'] == '6') {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      child: Text(
-                        model.days.toString(),
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    Text(model.text),
-                  ],
-                );
-              } else if (tmpThisMonth['thisweekday'] == '5') {
-                return Column(
-                  children: [
-                    Text(
-                      model.days.toString(),
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                    Text(model.text),
-                  ],
-                );
-              } else {
-                return Column(
-                  children: [
-                    Text(
-                      model.days.toString(),
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                    Text(model.text),
-                  ],
-                );
-              }
-            } else if (tmpThisMonth['holiday'] == '1') {
-              return Column(
-                children: [
-                  Text(
+        if (tmpThisMonth['holiday'] == '0') {
+          if (tmpThisMonth['thisweekday'] == '6') {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: double.infinity,
+                  child: Text(
                     model.days.toString(),
                     style: TextStyle(
                       color: Colors.red,
@@ -199,19 +185,125 @@ Widget dayAndSchedule(int index) {
                       fontSize: 16,
                     ),
                   ),
-                  Text(model.text),
-                ],
-              );
-            }
+                ),
+                Container(
+                  child: FutureBuilder(
+                    future: model.fsGetSchedule(tmpDate),
+                    builder: (context, snapshot) {
+                      // 取得したデータを表示するWidget
+                      if (snapshot.data == null) {
+                        return Text("");
+                      } else {
+                        return Text(snapshot.data['schedule']);
+                      }
+                    },
+                  ),
+                ),
+              ],
+            );
+          } else if (tmpThisMonth['thisweekday'] == '5') {
+            return Column(
+              children: [
+                Container(
+                  width: double.infinity,
+                  child: Text(
+                    model.days.toString(),
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                Container(
+                  child: FutureBuilder(
+                    future: model.fsGetSchedule(tmpDate),
+                    builder: (context, snapshot) {
+                      // 取得したデータを表示するWidget
+                      if (snapshot.data == null) {
+                        return Text("");
+                      } else {
+                        return Text(snapshot.data['schedule']);
+                      }
+                    },
+                  ),
+                ),
+              ],
+            );
+          } else {
+            return Column(
+              children: [
+                Container(
+                  width: double.infinity,
+                  child: Text(
+                    model.days.toString(),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                Container(
+                  child: FutureBuilder(
+                    future: model.fsGetSchedule(tmpDate),
+                    builder: (context, snapshot) {
+                      // 取得したデータを表示するWidget
+                      if (snapshot.data == null) {
+                        return Text("");
+                      } else {
+                        // return Text(snapshot.data['schedule']);
+                        return Text(
+                          snapshot.data['schedule'],
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10,
+                          ),
+                          maxLines: 3,
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ],
+            );
           }
+        } else if (tmpThisMonth['holiday'] == '1') {
+          return Column(
+            children: [
+              Container(
+                width: double.infinity,
+                child: Text(
+                  model.days.toString(),
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+              Container(
+                child: FutureBuilder(
+                  future: model.fsGetSchedule(tmpDate),
+                  builder: (context, snapshot) {
+                    // 取得したデータを表示するWidget
+                    if (snapshot.data == null) {
+                      return Text("");
+                    } else {
+                      return Text(snapshot.data['schedule']);
+                    }
+                  },
+                ),
+              ),
+            ],
+          );
+        }
+      }
 
-          if (index > lastDay + startDay - 1) {
-            model.resetDays();
-            _dayCount = model.days;
-            return Text("");
-          }
-        },
-      );
+      if (index > lastDay + startDay - 1) {
+        model.resetDays();
+        _dayCount = model.days;
+        return Text("");
+      }
     },
   ));
 }
@@ -260,37 +352,3 @@ String checkHoliday(String year, String month, String day) {
     return holidayFlag;
   }
 }
-
-// fsGetSchedule(date) async {
-//   try {
-//     final snapshot = await FirebaseFirestore.instance
-//         .collection('baby')
-//         .doc('yuto')
-//         .collection('$date')
-//         .doc('schedule')
-//         .get();
-
-//     debugPrint(snapshot['text']);
-//     text = snapshot['text'];
-
-//     // return result;
-//   } catch (e) {
-//     debugPrint("not exists data in firestore ");
-//   }
-// }
-
-// Future<String> fsGetSchedule(String date) async {
-//   try {
-//     DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
-//         .collection('baby')
-//         .doc('yuto')
-//         .collection('$date')
-//         .doc('schedule')
-//         .get();
-
-//     Map<String, dynamic> record = docSnapshot.data;
-//     return record['text'];
-//   } catch (e) {
-//     debugPrint("");
-//   }
-// }

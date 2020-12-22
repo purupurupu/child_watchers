@@ -15,30 +15,9 @@ import '../components/footNavigator.dart';
 // import 'package:intl/date_symbol_data_local.dart';
 
 class CalenderPage extends StatelessWidget {
-  Future<Map<String, dynamic>> fsGetSchedule(String date) async {
-    try {
-      DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
-          .collection('yuto')
-          .doc('$date')
-          .get();
-
-      // debugPrint(docSnapshot['schedule']);
-      return docSnapshot.data();
-    } catch (e) {
-      // docSnapshot = "aaaa" as DocumentSnapshot;
-      debugPrint("not exists data in firestore ");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
-    // String tmpTime = 'Today  ' +
-    //     now.year.toString() +
-    //     '/' +
-    //     now.month.toString() +
-    //     '/' +
-    //     now.day.toString();
 
     return (Consumer<SetDayAndScheduleModel>(
       builder: (context, model, child) {
@@ -47,35 +26,9 @@ class CalenderPage extends StatelessWidget {
           model.setCurrentDate(now);
         }
 
-        // String tmpDate = model.currentYear +
-        //     model.currentMonth +
-        //     ((model.days + 1).toString());
-
-        // return FutureBuilder(
-        //   future: fsGetSchedule('20201225'),
-        //   builder: (context, snapshot) {
-        //     // 取得が完了していないときに表示するWidget
-        //     if (snapshot.connectionState != ConnectionState.done) {
-        //       // インジケーターを回しておきます
-        //       // return const CircularProgressIndicator();
-        //     }
-
-        //     // エラー時に表示するWidget
-        //     if (snapshot.hasError) {
-        //       print(snapshot.error);
-        //       // return Text('エラー');
-        //     }
-
-        //     // データが取得できなかったときに表示するWidget
-        //     if (!snapshot.hasData) {
-        //       // return Text('データがない');
-        //     }
-        //     debugPrint('${snapshot.data}');
-
-        //     // 取得したデータを表示するWidget
-        //     // return Text('${snapshot.data}');
-        //   },
-        // );
+        String tmpDate = model.currentYear +
+            model.currentMonth +
+            ((model.days + 1).toString());
 
         return Scaffold(
           appBar: AppBar(
@@ -149,7 +102,33 @@ class CalenderPage extends StatelessWidget {
                     }),
                   ),
                 ),
-              )
+              ),
+              // FloatingActionButton(
+              //   onPressed: () => Expanded(
+              //     child: TextField(
+              //       autofocus: true,
+              //       decoration: InputDecoration(
+              //           labelText: 'limitDay', hintText: 'date'),
+              //       onTap: () {
+              //         DatePicker.showDateTimePicker(context,
+              //             showTitleActions: true,
+              //             theme: DatePickerTheme(
+              //                 backgroundColor: Colors.blue,
+              //                 itemStyle: TextStyle(
+              //                     color: Colors.white,
+              //                     fontWeight: FontWeight.bold),
+              //                 doneStyle:
+              //                     TextStyle(color: Colors.white, fontSize: 16)),
+              //             onChanged: (date) {
+              //           print('change $date in time zone ' +
+              //               date.timeZoneOffset.inHours.toString());
+              //         }, onConfirm: (date) {
+              //           print('confirm $date');
+              //         }, currentTime: DateTime.now(), locale: LocaleType.jp);
+              //       },
+              //     ),
+              //   ),
+              // )
             ],
           ),
           bottomNavigationBar: footNavigator(),

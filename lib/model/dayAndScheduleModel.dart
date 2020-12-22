@@ -60,29 +60,22 @@ class SetDayAndScheduleModel extends ChangeNotifier {
           .get();
 
       debugPrint(docSnapshot['schedule']);
+
       return docSnapshot.data();
+      // Map<String, dynamic> record = docSnapshot.data();
+      // return record['schedule'];
     } catch (e) {
       // docSnapshot = "aaaa" as DocumentSnapshot;
       debugPrint("not exists data in firestore ");
     }
   }
-
-  // firestoreからスケジュール持ってくる
-  // Future fsGetSchedule(String date) async {
-  //   try {
-  //     final snapshot = await FirebaseFirestore.instance
-  //         .collection('baby')
-  //         .doc('yuto')
-  //         .collection('$date')
-  //         .doc('schedule')
-  //         .get();
-
-  //     // debugPrint(snapshot['text']);
-  //     text = snapshot['text'];
-  //     // notifyListeners();
-  //   } catch (e) {
-  //     text = "";
-  //     debugPrint("not exists data in firestore ");
-  //   }
-  // }
 }
+
+// FutureBuilder(
+//   future: fsGetSchedule('20201225'),
+//   builder: (context, snapshot) {
+
+//     // 取得したデータを表示するWidget
+//     // return Text('${snapshot.data}');
+//   },
+// );
