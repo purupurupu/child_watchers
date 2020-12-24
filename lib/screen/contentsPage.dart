@@ -91,6 +91,26 @@ class ContentsPage extends StatelessWidget {
           Text('end text'),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return SimpleDialog(
+                title: Text("タイトル"),
+                children: <Widget>[
+                  // コンテンツ領域
+                  SimpleDialogOption(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text("１項目目"),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      ),
       bottomNavigationBar: footNavigator(),
     );
   }

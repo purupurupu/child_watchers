@@ -103,33 +103,27 @@ class CalenderPage extends StatelessWidget {
                   ),
                 ),
               ),
-              // FloatingActionButton(
-              //   onPressed: () => Expanded(
-              //     child: TextField(
-              //       autofocus: true,
-              //       decoration: InputDecoration(
-              //           labelText: 'limitDay', hintText: 'date'),
-              //       onTap: () {
-              //         DatePicker.showDateTimePicker(context,
-              //             showTitleActions: true,
-              //             theme: DatePickerTheme(
-              //                 backgroundColor: Colors.blue,
-              //                 itemStyle: TextStyle(
-              //                     color: Colors.white,
-              //                     fontWeight: FontWeight.bold),
-              //                 doneStyle:
-              //                     TextStyle(color: Colors.white, fontSize: 16)),
-              //             onChanged: (date) {
-              //           print('change $date in time zone ' +
-              //               date.timeZoneOffset.inHours.toString());
-              //         }, onConfirm: (date) {
-              //           print('confirm $date');
-              //         }, currentTime: DateTime.now(), locale: LocaleType.jp);
-              //       },
-              //     ),
-              //   ),
-              // )
             ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return SimpleDialog(
+                    title: Text("タイトル"),
+                    children: <Widget>[
+                      // コンテンツ領域
+                      SimpleDialogOption(
+                        onPressed: () => Navigator.pop(context),
+                        child: Text("１項目目"),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
           ),
           bottomNavigationBar: footNavigator(),
         );
