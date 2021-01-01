@@ -111,13 +111,22 @@ class CalenderPage extends StatelessWidget {
               showDialog(
                 context: context,
                 builder: (context) {
-                  return SimpleDialog(
-                    title: Text("タイトル"),
+                  return Column(
                     children: <Widget>[
-                      // コンテンツ領域
-                      SimpleDialogOption(
-                        onPressed: () => Navigator.pop(context),
-                        child: Text("１項目目"),
+                      AlertDialog(
+                        title: Text("タイトル"),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: <Widget>[
+                              Column(
+                                  // コンテンツ
+                                  ),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          // ボタン
+                        ],
                       ),
                     ],
                   );

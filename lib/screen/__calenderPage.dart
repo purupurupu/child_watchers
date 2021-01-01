@@ -1,3 +1,5 @@
+import 'package:child_watchers/model/fsGetSchedule.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../components/footNavigator.dart';
@@ -10,6 +12,24 @@ final Map<DateTime, List> _holidays = {
   DateTime(2019, 4, 21): ['Easter Sunday'],
   DateTime(2019, 4, 22): ['Easter Monday'],
 };
+
+  List<String> _tmpSchedule = [];
+  // List<String> _tmpSchedule = List<String>();
+
+
+
+void getScheduleData() async {
+
+  QuerySnapshot snapshot =
+      await FirebaseFirestore.instance.collection('yuto').get();
+  for (var i = 0; i < snapshot.docs.length; i++) {
+    if (snapshot.docs[i].data()['schedule'] == null) {
+      continue;
+    } else {
+      _tmpSchedule.add(snapshot.docs[i].data()['schedule']);
+    }
+  }
+}
 
 class CalenderPage extends StatefulWidget {
   // CalenderPage({Key key, this.title}) : super(key: key);
@@ -31,6 +51,9 @@ class _CalenderPageState extends State<CalenderPage>
   void initState() {
     super.initState();
     final _selectedDay = DateTime.now();
+
+    // getScheduleData();
+    // debugPrint(_tmpSchedule[0]);
 
     _events = {
       _selectedDay.subtract(Duration(days: 30)): [

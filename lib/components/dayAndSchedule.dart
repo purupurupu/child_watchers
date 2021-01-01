@@ -231,40 +231,68 @@ Widget dayAndSchedule(int index) {
               ],
             );
           } else {
-            return Column(
-              children: [
-                Container(
-                  width: double.infinity,
-                  child: Text(
-                    model.days.toString(),
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+            return InkWell(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return Column(
+                      children: <Widget>[
+                        AlertDialog(
+                          title: Text("予定"),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: <Widget>[
+                                Column(
+                                    // コンテンツ
+                                    ),
+                              ],
+                            ),
+                          ),
+                          actions: <Widget>[
+                            // ボタン
+                          ],
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: Column(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    child: Text(
+                      model.days.toString(),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  child: FutureBuilder(
-                    future: model.fsGetSchedule(tmpDate),
-                    builder: (context, snapshot) {
-                      // 取得したデータを表示するWidget
-                      if (snapshot.data == null) {
-                        return Text("");
-                      } else {
-                        // return Text(snapshot.data['schedule']);
-                        return Text(
-                          snapshot.data['schedule'],
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 10,
-                          ),
-                          maxLines: 3,
-                        );
-                      }
-                    },
+                  Container(
+                    child: FutureBuilder(
+                      future: model.fsGetSchedule(tmpDate),
+                      builder: (context, snapshot) {
+                        // 取得したデータを表示するWidget
+                        if (snapshot.data == null) {
+                          return Text("");
+                        } else {
+                          // return Text(snapshot.data['schedule']);
+                          return Text(
+                            snapshot.data['schedule'],
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 10,
+                            ),
+                            maxLines: 3,
+                          );
+                        }
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             );
           }
         } else if (tmpThisMonth['holiday'] == '1') {
