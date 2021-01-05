@@ -39,10 +39,7 @@ dependencies:
   table_calendar: ^2.3.0
   intl: ^0.16.1
   cell_calendar: ^0.1.2
-  flutter_timetable_view: ^0.1.0
-
-
-
+  flutter_timetable_view: ^0.2.0
   #flutter_datetime_picker: ^1.2.1
 
 dev_dependencies:

@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'model/calendarPageModel.dart';
 import 'model/dayAndScheduleModel.dart';
-import 'model/fsGetSchedule.dart';
 import 'screen/calendarPage.dart';
 import 'screen/contentsPage.dart';
 import 'model/footNavigatorModel.dart';
