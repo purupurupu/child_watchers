@@ -18,7 +18,9 @@ class CalenderPage extends StatelessWidget {
     var _eventController = TextEditingController();
     var _selectedDate = '';
 
-    List<CalendarEvent> _testEvents;
+    // final _sampleEvents = sampleEvents();
+
+    List<CalendarEvent> _testEvents = [];
 
     return Scaffold(
       appBar: AppBar(
@@ -29,17 +31,14 @@ class CalenderPage extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.data == null) return CircularProgressIndicator();
 
-          //fsロード後に実行しなければ不定になる
-          _testEvents = List(snapshot.data.docs.length - 1);
-
           //　firestoreからデータを取得して配列へ格納
           for (var i = 0; i < snapshot.data.docs.length; i++) {
             if (snapshot.data.docs[i].id.length == 8) {
-              String tmpDate = snapshot.data.docs[i].id.toString();
+              String tmpDays = snapshot.data.docs[i].id.toString();
 
-              int tmpYear = int.parse(tmpDate.substring(0, 4));
-              int tmpMonth = int.parse(tmpDate.substring(4, 6));
-              int tmpDay = int.parse(tmpDate.substring(6, 8));
+              int tmpYear = int.parse(tmpDays.substring(0, 4));
+              int tmpMonth = int.parse(tmpDays.substring(4, 6));
+              int tmpDay = int.parse(tmpDays.substring(6, 8));
 
               DateTime a = DateTime(tmpYear, tmpMonth, tmpDay, 0, 0);
               DateTime b = DateTime(today.year, today.month, today.day, 0, 0);
@@ -47,17 +46,12 @@ class CalenderPage extends StatelessWidget {
               //登録されている日付と、現時点の日付を比較
               int diffDays = a.difference(b).inDays;
 
-              // _testEvents.add(
-              //   CalendarEvent(
-              //       eventName: snapshot.data.docs[i]['schedule'],
-              //       eventDate: today.add(Duration(days: diffDays)),
-              //       eventBackgroundColor: Colors.green),
-              // );
-
-              _testEvents[i] = CalendarEvent(
-                  eventName: snapshot.data.docs[i]['schedule'],
-                  eventDate: today.add(Duration(days: diffDays)),
-                  eventBackgroundColor: Colors.green);
+              _testEvents.add(
+                CalendarEvent(
+                    eventName: snapshot.data.docs[i]['schedule'],
+                    eventDate: today.add(Duration(days: diffDays)),
+                    eventBackgroundColor: Colors.black),
+              );
             } else {
               continue;
             }
@@ -112,7 +106,7 @@ class CalenderPage extends StatelessWidget {
           showDialog(
             context: context,
             builder: (context) {
-              return Consumer<DatePickerModel>(
+              return (Consumer<DatePickerModel>(
                 builder: (context, model, child) {
                   return Column(
                     children: <Widget>[
@@ -185,13 +179,11 @@ class CalenderPage extends StatelessWidget {
                               // model.fsSetDoucument('yuto',);
                               fsSetDocument('yuto', model.getSelectedDate(),
                                   _eventController.text);
-                              // debugPrint(model.getSelectedDate());
+                              debugPrint(model.getSelectedDate());
 
                               //_eventController.text;
 
-                              // Navigator.pop(context);
-                              Navigator.of(context)
-                                  .pushReplacementNamed("/Calender");
+                              Navigator.pop(context);
                               model.initSelectedDate();
                             },
                           ),
@@ -200,7 +192,7 @@ class CalenderPage extends StatelessWidget {
                     ],
                   );
                 },
-              );
+              ));
             },
           );
         },
@@ -210,3 +202,85 @@ class CalenderPage extends StatelessWidget {
     );
   }
 }
+
+// List<CalendarEvent> sampleEvents() {
+//   final today = DateTime.now();
+
+//   final sampleEvents = [
+//     CalendarEvent(
+//         eventName: "New iPhone",
+//         eventDate: today.add(Duration(days: -42)),
+//         eventBackgroundColor: Colors.black),
+//     CalendarEvent(
+//         eventName: "Writing test",
+//         eventDate: today.add(Duration(days: -30)),
+//         eventBackgroundColor: Colors.deepOrange),
+//     CalendarEvent(
+//         eventName: "Play soccer",
+//         eventDate: today.add(Duration(days: -7)),
+//         eventBackgroundColor: Colors.greenAccent),
+//     CalendarEvent(
+//         eventName: "Learn about history",
+//         eventDate: today.add(Duration(days: -7))),
+//     CalendarEvent(
+//         eventName: "Buy new keyboard",
+//         eventDate: today.add(Duration(days: -7))),
+//     CalendarEvent(
+//         eventName: "Walk around the park",
+//         eventDate: today.add(Duration(days: -7)),
+//         eventBackgroundColor: Colors.deepOrange),
+//     CalendarEvent(
+//         eventName: "Buy a present for Rebecca",
+//         eventDate: today.add(Duration(days: -7)),
+//         eventBackgroundColor: Colors.pink),
+//     CalendarEvent(
+//         eventName: "Firebase", eventDate: today.add(Duration(days: -7))),
+//     CalendarEvent(eventName: "Task Deadline", eventDate: today),
+//     CalendarEvent(
+//         eventName: "Jon's Birthday",
+//         eventDate: today.add(Duration(days: 3)),
+//         eventBackgroundColor: Colors.green),
+//     CalendarEvent(
+//         eventName: "Date with Rebecca",
+//         eventDate: today.add(Duration(days: 7)),
+//         eventBackgroundColor: Colors.pink),
+//     CalendarEvent(
+//         eventName: "Start to study Spanish",
+//         eventDate: today.add(Duration(days: 13))),
+//     CalendarEvent(
+//         eventName: "Have lunch with Mike",
+//         eventDate: today.add(Duration(days: 13)),
+//         eventBackgroundColor: Colors.green),
+//     CalendarEvent(
+//         eventName: "Buy new Play Station software",
+//         eventDate: today.add(Duration(days: 13)),
+//         eventBackgroundColor: Colors.indigoAccent),
+//     CalendarEvent(
+//         eventName: "Update my flutter package",
+//         eventDate: today.add(Duration(days: 13))),
+//     CalendarEvent(
+//         eventName: "Watch movies in my house",
+//         eventDate: today.add(Duration(days: 21))),
+//     CalendarEvent(
+//         eventName: "Medical Checkup",
+//         eventDate: today.add(Duration(days: 30)),
+//         eventBackgroundColor: Colors.red),
+//     CalendarEvent(
+//         eventName: "Gym",
+//         eventDate: today.add(Duration(days: 42)),
+//         eventBackgroundColor: Colors.indigoAccent),
+//   ];
+//   return sampleEvents;
+// }
+
+// Future<List<CalendarEvent>> fsGetDocuments() async {
+//   var tmp = [];
+//   try {
+//     final snapshot = await FirebaseFirestore.instance.collection('yuto').get();
+//     snapshot.docs.map((doc) => {tmp.add(doc)});
+//     // debugPrint(snapshot.docs[0]['schedule']);
+//     // notifyListeners();
+//   } catch (e) {
+//     debugPrint("not exists data in firestore ");
+//   }
+// }
