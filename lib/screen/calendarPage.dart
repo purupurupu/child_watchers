@@ -190,8 +190,11 @@ class CalenderPage extends StatelessWidget {
                               //_eventController.text;
 
                               // Navigator.pop(context);
-                              Navigator.of(context)
-                                  .pushReplacementNamed("/Calender");
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CalenderPage()),
+                                  (_) => false);
                               model.initSelectedDate();
                             },
                           ),

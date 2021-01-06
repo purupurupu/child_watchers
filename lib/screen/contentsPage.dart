@@ -16,6 +16,7 @@ class ContentsPage extends StatelessWidget {
           laneWidth: 50,
         ),
       ),
+      bottomNavigationBar: footNavigator(),
     );
   }
 }
