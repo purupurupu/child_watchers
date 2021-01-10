@@ -1,5 +1,7 @@
 import 'package:child_watchers/components/footNavigator.dart';
+import 'package:child_watchers/model/contentsPageModl.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../components/timeTable.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_timetable_view/flutter_timetable_view.dart';
@@ -9,13 +11,29 @@ class ContentsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: TimetableView(
-        laneEventsList: _LaneEvents(),
-        timetableStyle: TimetableStyle(
-          timeItemWidth: 70,
-          laneWidth: 50,
-        ),
+      body: Consumer<ContentsPageModel>(
+        builder: (context, model, child) {
+          // model.laneEventsGet();
+
+          return TimetableView(
+            laneEventsList: model.laneEventsMdl,
+            timetableStyle: TimetableStyle(
+              timeItemWidth: 70,
+              laneWidth: 50,
+            ),
+          );
+        },
       ),
+      floatingActionButton:
+          Consumer<ContentsPageModel>(builder: (context, model, child) {
+        return FloatingActionButton(
+          onPressed: () {
+            model.laneEventsRemove(0);
+            //ボタンを押したときの処理
+          },
+          child: Text('ボタンに表示する文字'),
+        );
+      }),
       bottomNavigationBar: footNavigator(),
     );
   }

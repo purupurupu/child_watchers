@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'model/calendarPageModel.dart';
+import 'model/contentsPageModl.dart';
 import 'model/dayAndScheduleModel.dart';
 import 'screen/calendarPage.dart';
 import 'screen/contentsPage.dart';
@@ -18,8 +19,8 @@ void main() async => {
               ChangeNotifierProvider(create: (context) => FootNavigatorModel()),
               ChangeNotifierProvider(
                   create: (context) => SetDayAndScheduleModel()),
-              ChangeNotifierProvider(create: (context) => DatePickerModel()),
-
+              ChangeNotifierProvider(create: (context) => CalendarPageModel()),
+              ChangeNotifierProvider(create: (context) => ContentsPageModel()),
               //←←←ここに追加するProviderを記載する
             ],
             child: MyApp(),

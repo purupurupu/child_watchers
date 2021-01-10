@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class DatePickerModel extends ChangeNotifier {
+class CalendarPageModel extends ChangeNotifier {
   String selectedDate = '日付未選択';
   DateTime selectedDateTime;
 

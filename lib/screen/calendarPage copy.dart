@@ -106,7 +106,7 @@ class CalenderPage extends StatelessWidget {
           showDialog(
             context: context,
             builder: (context) {
-              return (Consumer<DatePickerModel>(
+              return (Consumer<CalendarPageModel>(
                 builder: (context, model, child) {
                   return Column(
                     children: <Widget>[
